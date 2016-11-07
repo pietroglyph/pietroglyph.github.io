@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Beginning"
+title:  "An Introduction"
 date:   2016-11-02 17:16:14 -0700
 categories: general
 ---
