@@ -1,0 +1,37 @@
+baseURL = 'https://pietroglyph.github.io'
+languageCode = 'en-us'
+title = 'Declan Freeman-Gleason'
+theme = 'notepadium'
+copyright = '© 2021 Declan Freeman-Gleason.'
+
+enableRobotsTXT = true
+
+[markup.highlight]
+codeFences = true
+noClasses = false
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[params]
+style = 'auto'
+license = 'Licensed under the GNU Free Documentation License'
+
+[params.math]
+enable = true
+use = 'mathjax'
+
+[params.syntax]
+use = 'none'
+theme = 'dracula'
+webFonts = true
+
+[params.nav]
+showCategories = false
+showTags = false
+
+[params.profile]
+enable = true
+name = "Declan Freeman-Gleason"
+github = "pietroglyph"
+email = "declanfreemangleason+site@gmail.com"
