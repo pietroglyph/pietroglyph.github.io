@@ -1,0 +1,131 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>A Constrained Trajectory Generator for Wheeled Mobile Robots | declan on the interwebs</title>
+<meta name=keywords content="trajectory-generation,splines,kinematics,motion-profiling">
+<meta name=description content="Background on the trajectory generator, odometry, and controller I wrote for mobile robots">
+<meta name=author content="Declan Freeman-Gleason">
+<link rel=canonical href=https://pietroglyph.github.io/posts/trajectory-generator/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.5e2b4101351c21e906f398ae96901791830f58d430f96f2659dab7eaef7b3cb7.css integrity="sha256-XitBATUcIekG85iulpAXkYMPWNQw+W8mWdq36u97PLc=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://pietroglyph.github.io/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://pietroglyph.github.io/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://pietroglyph.github.io/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://pietroglyph.github.io/apple-touch-icon.png>
+<link rel=mask-icon href=https://pietroglyph.github.io/safari-pinned-tab.svg>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.88.1">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="A Constrained Trajectory Generator for Wheeled Mobile Robots">
+<meta property="og:description" content="Background on the trajectory generator, odometry, and controller I wrote for mobile robots">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pietroglyph.github.io/posts/trajectory-generator/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2019-12-01T00:00:00+00:00">
+<meta property="article:modified_time" content="2019-12-01T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="A Constrained Trajectory Generator for Wheeled Mobile Robots">
+<meta name=twitter:description content="Background on the trajectory generator, odometry, and controller I wrote for mobile robots">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://pietroglyph.github.io/posts/"},{"@type":"ListItem","position":3,"name":"A Constrained Trajectory Generator for Wheeled Mobile Robots","item":"https://pietroglyph.github.io/posts/trajectory-generator/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"A Constrained Trajectory Generator for Wheeled Mobile Robots","name":"A Constrained Trajectory Generator for Wheeled Mobile Robots","description":"Background on the trajectory generator, odometry, and controller I wrote for mobile robots","keywords":["trajectory-generation","splines","kinematics","motion-profiling"],"articleBody":"Summary I gave a presentation to about a hundred students on trajectory generation for wheeled mobile robots. The constrained trajectory generation algorithims I presented on are very similar to those in Sprunk1. I contributed some of an implementation of this trajectory generator to WPILib, which is an open source robotics utility library with thousands of users. I also wrote my own version of this trajectory generator2 following 1 and added exponential map-based odometry and a nonlinear time-varying feedback controller for a unicycle model3 from 4. This results in a trajectory generator that can (given a kinematic model of the robot) generate some target wheel velocities from a set of waypoints and constraints. Given the odometry and the unicycle controller we can also modify the target wheel velocities to control our global pose, in case the robot deviates from the desired path. The target wheel velocities are fed into a set of (usually) PD controllers on each of the robot’s wheels. This trajectory generation methedology can easily be extended to holonomic robots by changing out the unicycle controller and kinematics model.\nTechnical details I wrote a small JavaScript-based implementation of this trajectory generator and used it to make an accurately-animated presentation about the trajectory generation process. The resulting presentation is embeded below, and contains most of the technical details the trajectory generator, including:\n Hermite splines. Recursive spline subdivision with the logarithim map (the inverse of the exponential map) to get closely-spaced spline sample points that allows for approximating arc length with Euclidian distances. This method is much faster than the naive method which requires picking a (usually) very small parameter increment, (\\Delta s), that will always give points that are closely spaced enough that a Euclidian distance is appropriate. Trapezoidal motion profiles A detailed animation and explanation on the algorithim used to generate constrained motion profiles Inverse kinematics Odometry The global pose controller Demo of a real robot using my trajectory generator implementation A video of me giving a voiceover on the presentation is also embedded for convenience.      Sprunk ↩︎\n Trajectory generation code ↩︎\n The unicycle controller is similar to a traditional pose-stabilizing controller except that it degenerates and doesn’t control heading when the desired velocity is zero (like a unicycle, which “falls over” in that case.) This controller is appropriate for differential drive robots. I also wrote but never tested a controller for swerve drive and mecanum drive robots, which is PID-based. ↩︎\n De Luca et al. ↩︎\n   ","wordCount":"404","inLanguage":"en","datePublished":"2019-12-01T00:00:00Z","dateModified":"2019-12-01T00:00:00Z","author":{"@type":"Person","name":"Declan Freeman-Gleason"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pietroglyph.github.io/posts/trajectory-generator/"},"publisher":{"@type":"Organization","name":"declan on the interwebs","logo":{"@type":"ImageObject","url":"https://pietroglyph.github.io/favicon.ico"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://pietroglyph.github.io accesskey=h title="declan on the interwebs (Alt + H)">declan on the interwebs</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<h1 class=post-title>
+A Constrained Trajectory Generator for Wheeled Mobile Robots
+</h1>
+<div class=post-description>
+Background on the trajectory generator, odometry, and controller I wrote for mobile robots
+</div>
+<div class=post-meta>December 1, 2019&nbsp;·&nbsp;Declan Freeman-Gleason
+</div>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#summary aria-label=Summary>Summary</a></li>
+<li>
+<a href=#technical-details aria-label="Technical details">Technical details</a>
+</li>
+</ul>
+</div>
+</details>
+</div>
+<div class=post-content><h2 id=summary>Summary<a hidden class=anchor aria-hidden=true href=#summary>#</a></h2>
+<p>I gave a presentation to about a hundred students on trajectory generation for wheeled mobile robots. The constrained trajectory generation algorithims I presented on are very similar to those in <em>Sprunk</em><sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>. I contributed some of an implementation of this trajectory generator to <a href=https://wpilib.org>WPILib</a>, which is an open source robotics utility library with thousands of users. I also wrote my own version of this trajectory generator<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup> following <sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> and added exponential map-based odometry and a nonlinear time-varying feedback controller for a unicycle model<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup> from <sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup>. This results in a trajectory generator that can (given a kinematic model of the robot) generate some target wheel velocities from a set of waypoints and constraints. Given the odometry and the unicycle controller we can also modify the target wheel velocities to control our global pose, in case the robot deviates from the desired path. The target wheel velocities are fed into a set of (usually) PD controllers on each of the robot&rsquo;s wheels. This trajectory generation methedology can easily be extended to holonomic robots by changing out the unicycle controller and kinematics model.</p>
+<h2 id=technical-details>Technical details<a hidden class=anchor aria-hidden=true href=#technical-details>#</a></h2>
+<p>I wrote a small JavaScript-based implementation of this trajectory generator and used it to make an accurately-animated presentation about the trajectory generation process. The resulting presentation is embeded below, and contains most of the technical details the trajectory generator, including:</p>
+<ul>
+<li>Hermite splines.</li>
+<li>Recursive spline subdivision with the logarithim map (the inverse of the exponential map) to get closely-spaced spline sample points that allows for approximating arc length with Euclidian distances. This method is much faster than the naive method which requires picking a (usually) very small parameter increment, (\Delta s), that will always give points that are closely spaced enough that a Euclidian distance is appropriate.</li>
+<li>Trapezoidal motion profiles</li>
+<li>A detailed animation and explanation on the algorithim used to generate constrained motion profiles</li>
+<li>Inverse kinematics</li>
+<li>Odometry</li>
+<li>The global pose controller</li>
+<li>Demo of a real robot using my trajectory generator implementation
+A video of me giving a voiceover on the presentation is also embedded for convenience.</li>
+</ul>
+<iframe width=100% height=450px name=presentation-frame src=https://pietroglyph.github.io/trajectory-presentation/></iframe>
+<iframe width=100% height=450px src=https://www.youtube-nocookie.com/embed/fEVU7dVc8B4 title="YouTube video player" frameborder=0 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<section class=footnotes role=doc-endnotes>
+<hr>
+<ol>
+<li id=fn:1 role=doc-endnote>
+<p><a href=http://www2.informatik.uni-freiburg.de/~lau/students/Sprunk2008.pdf><em>Sprunk</em></a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+<li id=fn:2 role=doc-endnote>
+<p><a href=https://github.com/Spartronics4915/SpartronicsLib/tree/323c6f245b12f2280b2d16eb36916efa1ebf8731/src/main/java/com/spartronics4915/lib/math/twodim>Trajectory generation code</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+<li id=fn:3 role=doc-endnote>
+<p>The unicycle controller is similar to a traditional pose-stabilizing controller except that it degenerates and doesn&rsquo;t control heading when the desired velocity is zero (like a unicycle, which &ldquo;falls over&rdquo; in that case.) This controller is appropriate for differential drive robots. I also wrote but never tested a controller for swerve drive and mecanum drive robots, which is PID-based.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+<li id=fn:4 role=doc-endnote>
+<p><a href=https://doi.org/10.1007/3-540-45000-9_8><em>De Luca et al.</em></a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://pietroglyph.github.io/tags/trajectory-generation/>trajectory-generation</a></li>
+<li><a href=https://pietroglyph.github.io/tags/splines/>splines</a></li>
+<li><a href=https://pietroglyph.github.io/tags/kinematics/>kinematics</a></li>
+<li><a href=https://pietroglyph.github.io/tags/motion-profiling/>motion-profiling</a></li>
+</ul>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>© 2021. Licensed under the GNU Free Documentation License.</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>
