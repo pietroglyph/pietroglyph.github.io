@@ -1,37 +1,47 @@
-baseURL = 'https://pietroglyph.github.io'
-languageCode = 'en-us'
-title = 'Declan Freeman-Gleason'
-theme = 'notepadium'
-copyright = '© 2021 Declan Freeman-Gleason.'
+baseURL = "https://pietroglyph.github.io"
+title = "declan on the interwebs"
+copyright = "&copy; 2021. Licensed under the GNU Free Documentation License."
 
+languageCode = "en-US"
+defaultContentLanguage = "en"
+
+paginate = 100
+theme = "papermod"
+
+enableInlineShortcodes = true
 enableRobotsTXT = true
+enableEmoji = true
 
-[markup.highlight]
-codeFences = true
-noClasses = false
+[languages.en]
+languageName = "English"
+weight = 1
+
+[outputs]
+home = [ "HTML", "RSS", "JSON" ]
+
+[params]
+description = "Declan's portfolio"
+author = "Declan Freeman-Gleason"
+ShowToc = true
+
+  [params.homeInfoParams]
+  Title = "Declan's portfolio"
+  Content = """
+I'm Declan. I like math and systems-level programming. I've written controls, state estimation, trajectory generation, visual SLAM, and factor graph optimization code. You can find some of my projects below.
+"""
+
+  [[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/pietroglyph"
+
+  [[params.socialIcons]]
+  name = "RSS"
+  url = "index.xml"
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+series = "series"
 
 [markup.goldmark.renderer]
 unsafe = true
-
-[params]
-style = 'auto'
-license = 'Licensed under the GNU Free Documentation License'
-
-[params.math]
-enable = true
-use = 'mathjax'
-
-[params.syntax]
-use = 'none'
-theme = 'dracula'
-webFonts = true
-
-[params.nav]
-showCategories = false
-showTags = false
-
-[params.profile]
-enable = true
-name = "Declan Freeman-Gleason"
-github = "pietroglyph"
-email = "declanfreemangleason+site@gmail.com"
