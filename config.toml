@@ -22,16 +22,18 @@ home = [ "HTML", "RSS", "JSON" ]
 [params]
 description = "Declan's portfolio"
 author = "Declan Freeman-Gleason"
-ShowToc = true
 
   [params.homeInfoParams]
-  Title = "Declan's portfolio"
-  Content = """
+  title = "Declan's portfolio"
+  content = """
 I'm Declan. I like math and systems-level programming. I've written controls, state estimation, trajectory generation, visual SLAM, and factor graph optimization code. You can find some of my projects below.
 """
 
+  [params.assets]
+  disableHLJS = true
+
   [[params.socialIcons]]
-  name = "github"
+  name = "GitHub"
   url = "https://github.com/pietroglyph"
 
   [[params.socialIcons]]
@@ -43,5 +45,12 @@ category = "categories"
 tag = "tags"
 series = "series"
 
-[markup.goldmark.renderer]
-unsafe = true
+[markup]
+  [markup.highlight]
+  codeFences = true
+  guessSyntax = true
+  lineNos = false
+  style = "monokai"
+
+  [markup.goldmark.renderer]
+  unsafe = true
