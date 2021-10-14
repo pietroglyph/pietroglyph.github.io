@@ -4,7 +4,7 @@ title: A Constrained Trajectory Generator for Wheeled Mobile Robots
 date: 2019-12-01
 description: Background on the trajectory generator, odometry, and controller I wrote for mobile robots
 math: true
-tags: ["Java", "Trajectory generation", "Splines", "Kinematics", "Motion profiling", "Lie thoery"]
+tags: ["Java", "Trajectory generation", "Splines", "Kinematics", "Controls", "Lie thoery"]
 ---
 
 ## Summary
